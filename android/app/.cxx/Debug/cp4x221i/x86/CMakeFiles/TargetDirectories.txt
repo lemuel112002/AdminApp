@@ -1,0 +1,2 @@
+C:/Users/Romeo/Documents/Thesis/AdminApp/android/app/.cxx/Debug/cp4x221i/x86/CMakeFiles/edit_cache.dir
+C:/Users/Romeo/Documents/Thesis/AdminApp/android/app/.cxx/Debug/cp4x221i/x86/CMakeFiles/rebuild_cache.dir

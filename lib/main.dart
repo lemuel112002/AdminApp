@@ -15,7 +15,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  String currentScreen = "auth"; // Default screen
+  String currentScreen = "dashboard"; // Default screen
 
   void navigateTo(String screen) {
     setState(() {
