@@ -1,0 +1,2 @@
+C:/Users/Romeo/Documents/GitHub/AdminApp/android/app/.cxx/Debug/6m2v5615/x86/CMakeFiles/edit_cache.dir
+C:/Users/Romeo/Documents/GitHub/AdminApp/android/app/.cxx/Debug/6m2v5615/x86/CMakeFiles/rebuild_cache.dir
