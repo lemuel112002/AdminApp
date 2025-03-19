@@ -29,9 +29,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(
-              strokeWidth: 5.0,
-              color: Colors.black,
+            ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                Colors.black,
+                BlendMode.srcIn,
+              ),
+              child: const CircularProgressIndicator(
+                strokeWidth: 6.0,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(height: 20),
           ],

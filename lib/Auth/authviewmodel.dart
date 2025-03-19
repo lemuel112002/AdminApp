@@ -4,20 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthViewModel extends ChangeNotifier {
   final SupabaseClient supabase = Supabase.instance.client;
 
-  Future<void> signUp(
-    String email,
-    String password,
-    VoidCallback onSuccess,
-    Function(String) onError,
-  ) async {
-    try {
-      await supabase.auth.signUp(email: email, password: password);
-      onSuccess();
-    } catch (e) {
-      onError(e.toString());
-    }
-  }
-
   Future<void> signIn(
     String email,
     String password,
@@ -25,10 +11,31 @@ class AuthViewModel extends ChangeNotifier {
     Function(String) onError,
   ) async {
     try {
-      await supabase.auth.signInWithPassword(email: email, password: password);
-      onSuccess();
+      final response = await supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      debugPrint("Login Response: ${response.user}");
+
+      if (response.user != null) {
+        final userEmail = response.user!.email?.toLowerCase();
+        debugPrint("Email: $userEmail");
+
+        if (userEmail == "admin@gmail.com") {
+          debugPrint("Admin login success!");
+          onSuccess();
+        } else {
+          debugPrint("Non-admin login attempt.");
+          onError("Only admin can log in.");
+        }
+      } else {
+        debugPrint("Login failed: Invalid email or password.");
+        onError("Invalid email or password.");
+      }
     } catch (e) {
-      onError(e.toString());
+      debugPrint("Login Error: ${e.toString()}");
+      onError("Authentication failed. Check your credentials.");
     }
   }
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'authviewmodel.dart';
 
 class AuthScreen extends StatefulWidget {
   final VoidCallback onLoginSuccess;
@@ -13,9 +15,9 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool passwordVisible = false;
-  String message = "";
   String? emailError;
   String? passwordError;
+  String message = "";
 
   void signIn() {
     setState(() {
@@ -26,10 +28,22 @@ class _AuthScreenState extends State<AuthScreen> {
     });
 
     if (emailError == null && passwordError == null) {
-      setState(() {
-        message = "Login Success!";
-      });
-      widget.onLoginSuccess();
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+      authViewModel.signIn(
+        emailController.text,
+        passwordController.text,
+        () {
+          setState(() {
+            message = "Login Success!";
+          });
+          widget.onLoginSuccess();
+        },
+        (errorMsg) {
+          setState(() {
+            message = errorMsg;
+          });
+        },
+      );
     }
   }
 
@@ -97,23 +111,17 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: signIn,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
+                        ElevatedButton(
+                          onPressed: signIn,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                            child: const Text(
-                              "Sign In",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
+                          ),
+                          child: const Text(
+                            "Sign In",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
                         if (message.isNotEmpty)
